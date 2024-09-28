@@ -58,7 +58,7 @@ use Illuminate\Support\Facades\Storage;
 class DocumentDtController extends Controller
 {
     public function doc1(Request $request) {
-        $circles = Circle::all();
+        $circles = CircleDt::all();
 
         // Temukan data circle berdasarkan circle_id
         $circleId = request()->query('id');
@@ -149,9 +149,9 @@ class DocumentDtController extends Controller
             $members = [];
         }
 
-        $npkLeader = Circle::where('id', $circleId)->value('npk_leader');
-        $leaderName = Circle::where('id', $circleId)->value('leader');
-        $circleName = Circle::where('id', $circleId)->value('name');
+        $npkLeader = CircleDt::where('id', $circleId)->value('npk_leader');
+        $leaderName = CircleDt::where('id', $circleId)->value('leader');
+        $circleName = CircleDt::where('id', $circleId)->value('name');
 
         $org = Org::where('npk', $npkLeader)->first();
 
@@ -222,9 +222,9 @@ class DocumentDtController extends Controller
             $members = [];
         }
 
-        $npkLeader = Circle::where('id', $circleId)->value('npk_leader');
-        $leaderName = Circle::where('id', $circleId)->value('leader');
-        $circleName = Circle::where('id', $circleId)->value('name');
+        $npkLeader = CircleDt::where('id', $circleId)->value('npk_leader');
+        $leaderName = CircleDt::where('id', $circleId)->value('leader');
+        $circleName = CircleDt::where('id', $circleId)->value('name');
 
         $org = Org::where('npk', $npkLeader)->first();
 
@@ -294,9 +294,9 @@ class DocumentDtController extends Controller
             $members = [];
         }
 
-        $npkLeader = Circle::where('id', $circleId)->value('npk_leader');
-        $leaderName = Circle::where('id', $circleId)->value('leader');
-        $circleName = Circle::where('id', $circleId)->value('name');
+        $npkLeader = CircleDt::where('id', $circleId)->value('npk_leader');
+        $leaderName = CircleDt::where('id', $circleId)->value('leader');
+        $circleName = CircleDt::where('id', $circleId)->value('name');
 
         $org = Org::where('npk', $npkLeader)->first();
 
@@ -423,7 +423,7 @@ class DocumentDtController extends Controller
         return view('dt.absensi.doc.langkah5', compact('deptName','comment','circleId','notulenId','circle','members', 'leaderName', 'npkLeader', 'circleName', 'nama_cord', 'judulNotulen', 'brainstorms', 'rank_1', 'rank_2', 'rank_3', 'feasebility', 'viability', 'desirability', 'ideTerpilih'));
     }
     public function doc6() {
-        $circles = Circle::all();
+        $circles = CircleDt::all();
         
         
         // Temukan data circle berdasarkan circle_id
@@ -437,9 +437,9 @@ class DocumentDtController extends Controller
             $members = [];
         }
 
-        $npkLeader = Circle::where('id', $circleId)->value('npk_leader');
-        $leaderName = Circle::where('id', $circleId)->value('leader');
-        $circleName = Circle::where('id', $circleId)->value('name');
+        $npkLeader = CircleDt::where('id', $circleId)->value('npk_leader');
+        $leaderName = CircleDt::where('id', $circleId)->value('leader');
+        $circleName = CircleDt::where('id', $circleId)->value('name');
 
         $org = Org::where('npk', $npkLeader)->first();
 
@@ -588,10 +588,10 @@ class DocumentDtController extends Controller
         }
         
         
-        $npkLeader = Circle::where('id', $circleId)->value('npk_leader');
-        $npkLeader = Circle::where('id', $circleId)->value('npk_leader');
-        $leaderName = Circle::where('id', $circleId)->value('leader');
-        $circleName = Circle::where('id', $circleId)->value('name');
+        $npkLeader = CircleDt::where('id', $circleId)->value('npk_leader');
+        $npkLeader = CircleDt::where('id', $circleId)->value('npk_leader');
+        $leaderName = CircleDt::where('id', $circleId)->value('leader');
+        $circleName = CircleDt::where('id', $circleId)->value('name');
         $backgrounds = BackgroundL8::where('circle_id', $circleId)->get();
 
         $org = Org::where('npk', $npkLeader)->first();
@@ -666,10 +666,10 @@ class DocumentDtController extends Controller
             $members = [];
         }
         
-                    $npkLeader = Circle::where('id', $circleId)->value('npk_leader');
-                $npkLeader = Circle::where('id', $circleId)->value('npk_leader');
-                $leaderName = Circle::where('id', $circleId)->value('leader');
-                $circleName = Circle::where('id', $circleId)->value('name');
+                    $npkLeader = CircleDt::where('id', $circleId)->value('npk_leader');
+                $npkLeader = CircleDt::where('id', $circleId)->value('npk_leader');
+                $leaderName = CircleDt::where('id', $circleId)->value('leader');
+                $circleName = CircleDt::where('id', $circleId)->value('name');
 
         $org = Org::where('npk', $npkLeader)->first();
 

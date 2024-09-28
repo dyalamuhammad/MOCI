@@ -170,6 +170,8 @@
                                 Periode</a></li>
                         <li><a href="{{ route('control-member') }}" target="" class="nav-link">Control
                                 Member</a></li>
+                        <li><a href="{{ route('control-leader') }}" target="" class="nav-link">Control
+                                Leader</a></li>
                         <li class="nav-item"><a href="{{ route('dataNqiQcc') }}" target=""
                                 class="nav-link">Data
                                 NQI</a></li>

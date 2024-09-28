@@ -240,12 +240,14 @@
                                                 class="form-control border-0 text-center" name="category[]"
                                                 value="ICARE" readonly />ICARE</td>
                                         <td class="table-green-2">Icare Index</td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="target[]" /></td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="actual[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="target[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="actual[]" /></td>
                                         <td>
-                                            {{-- <input type="number" class="form-control border-0 text-center" placeholder="Isi disini..." name="judge[]"/> --}}
+                                            {{-- <input type="text" inputmode="numeric" class="form-control border-0 text-center" placeholder="Isi disini..." name="judge[]"/> --}}
                                             <select class="form-select text-center" style="width: 100%;" name="judge[]">
                                                 <option value="">-- Pilih --</option>
                                                 <option value="OK">OK</option>
@@ -258,10 +260,12 @@
                                                 class="form-control border-0 text-center" name="category[]"
                                                 value="SAFETY" readonly />SAFETY</td>
                                         <td class="table-green-2">Zero accident & Incident</td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="target[]" /></td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="actual[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="target[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="actual[]" /></td>
                                         <td>
                                             <select class="form-select text-center" style="width: 100%;" name="judge[]">
                                                 <option value="">-- Pilih --</option>
@@ -275,10 +279,12 @@
                                                 class="form-control border-0 text-center" name="category[]"
                                                 value="5S" readonly />5S</td>
                                         <td class="table-green-2">Grade A</td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="target[]" /></td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="actual[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="target[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="actual[]" /></td>
                                         <td>
                                             <select class="form-select text-center" style="width: 100%;" name="judge[]">
                                                 <option value="">-- Pilih --</option>
@@ -292,10 +298,12 @@
                                                 class="form-control border-0 text-center" name="category[]"
                                                 value="INFRASTRUCTURE" readonly />INFRASTRUCTURE</td>
                                         <td class="table-green-2">Energy Reduction</td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="target[]" /></td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="actual[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="target[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="actual[]" /></td>
                                         <td>
                                             <select class="form-select text-center" style="width: 100%;" name="judge[]">
                                                 <option value="">-- Pilih --</option>
@@ -309,10 +317,12 @@
                                                 class="form-control border-0 text-center" name="category[]"
                                                 value="PRODUCT-QUALITY" readonly />PRODUCT-QUALITY</td>
                                         <td class="table-green-2">DPU</td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="target[]" /></td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="actual[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="target[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="actual[]" /></td>
                                         <td>
                                             <select class="form-select text-center" style="width: 100%;" name="judge[]">
                                                 <option value="">-- Pilih --</option>
@@ -326,10 +336,12 @@
                                                 class="form-control border-0 text-center" name="category[]"
                                                 value="PRODUCT-COST" readonly />PRODUCT-COST</td>
                                         <td class="table-green-2">Labor Cost</td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="target[]" /></td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="actual[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="target[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="actual[]" /></td>
                                         <td>
                                             <select class="form-select text-center" style="width: 100%;" name="judge[]">
                                                 <option value="">-- Pilih --</option>
@@ -343,10 +355,12 @@
                                                 class="form-control border-0 text-center" name="category[]"
                                                 value="PROCESS" readonly />PROCESS</td>
                                         <td class="table-green-2">Efficiency Production</td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="target[]" /></td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="actual[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="target[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="actual[]" /></td>
                                         <td>
                                             <select class="form-select text-center" style="width: 100%;" name="judge[]">
                                                 <option value="">-- Pilih --</option>
@@ -360,10 +374,12 @@
                                                 class="form-control border-0 text-center" name="category[]"
                                                 value="PEOPLE" readonly />PEOPLE</td>
                                         <td class="table-green-2">People Development Implemented</td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="target[]" /></td>
-                                        <td><input type="number" class="form-control border-0 text-center"
-                                                placeholder="Isi disini..." name="actual[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="target[]" /></td>
+                                        <td><input type="text" inputmode="numeric"
+                                                class="form-control border-0 text-center" placeholder="Isi disini..."
+                                                name="actual[]" /></td>
                                         <td>
                                             <select class="form-select text-center" style="width: 100%;" name="judge[]">
                                                 <option value="">-- Pilih --</option>
@@ -390,8 +406,12 @@
                                                 <option value="">-- Pilih --</option>
                                                 <option value="ICARE">ICARE</option>
                                                 <option value="SAFETY">SAFETY</option>
-                                                <option value="SAFETY">QUALITY</option>
-                                                <option value="SAFETY">PRODUCT</option>
+                                                <option value="QUALITY">QUALITY</option>
+                                                <option value="PRODUCT">PRODUCT</option>
+                                                <option value="5S">5S</option>
+                                                <option value="INFRASTRUCTURE">INFRASTRUCTURE</option>
+                                                <option value="PROCESS">PROCESS</option>
+                                                <option value="PEOPLE">PEOPLE</option>
 
                                             </select>
                                         </td>

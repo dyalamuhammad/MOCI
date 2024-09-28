@@ -88,7 +88,7 @@
                 @foreach ($slides as $index => $slide)
                     <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                         <img class="d-block w-100" src="{{ asset($slide->img_url) }}" alt="Slide {{ $index + 1 }}"
-                            loading="lazy" style="filter: brightness(80%);">
+                            loading="lazy" style="filter: brightness(80%); object-fit: cover">
                         <div class="carousel-caption d-md-block">
                             <p class="fadeInUp wow" data-wow-delay=".6s">{{ $slide->description }}</p>
                             <h1 class="wow fadeInDown heading" data-wow-delay=".4s">{{ $slide->title }}</h1>

@@ -33,7 +33,8 @@ class User extends Authenticatable
         'jabatan',
         'shift',
         'status',
-        'section'
+        'section',
+        'tgl_masuk'
     ];
 
     /**
@@ -75,6 +76,10 @@ class User extends Authenticatable
     public function circle()
     {
         return $this->belongsTo(Circle::class, 'npk', 'npk_leader'); // Adjust the column names as needed
+    }
+    public function circleDt()
+    {
+        return $this->belongsTo(CircleDt::class, 'npk', 'npk_leader'); // Adjust the column names as needed
     }
 
     public function setPasswordAttribute($value)

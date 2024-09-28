@@ -124,8 +124,14 @@ Route::middleware(['auth', 'Superadmin'])->group(function () {
     // --------MEMBER START----------
     Route::get('/admin/control-member', [AdminController::class, 'controlMember'])->name('control-member');
     Route::post('/admin/pindah-circle', [AdminController::class, 'pindahCircle'])->name('pindah-circle');
-    
     // --------MEMBER END------------
+
+    // --------LEADER START----------
+    Route::get('/admin/control-leader', [AdminController::class, 'controlLeader'])->name('control-leader');
+    Route::post('/admin/pindah-leader', [AdminController::class, 'pindahLeader'])->name('pindah-leader');
+    Route::post('/update-npk-leader', [AdminController::class, 'updateNpkLeader'])->name('update.npk_leader');
+    Route::post('/update-npk-leader-dt', [AdminController::class, 'updateNpkLeaderDt'])->name('update.npk_leader_dt');
+    // --------LEADER START----------
     
     // --------ORGANIZATION START--------
     // group
@@ -194,9 +200,9 @@ Route::middleware(['auth', 'Superadmin'])->group(function () {
     Route::get('/ss-bulanan', [SsController::class, 'ssBulanan'])->name('ssBulanan');
     Route::post('/ss-bulanan', [SsController::class, 'importBulanan'])->name('importSsBulanan');
     Route::post('/ss', [SsController::class, 'import'])->name('importSs');
-    Route::get('/export-ss', function () {
-        return Excel::download(new SsExport, 'ss.xlsx');
-    });
+    // Route::get('/export-ss', function () {
+    //     return Excel::download(new SsExport, 'ss.xlsx');
+    // });
     /*
     ===============================
     ---------SS ENDS HERE--------
@@ -224,6 +230,7 @@ Route::middleware(['auth', 'Management'])->group(function () {
     Route::get('/moci', [AppController::class, 'index'])->name('home');
     Route::get('/profile', [AppController::class, 'profile'])->name('profile');
     Route::post('/profile', [AppController::class, 'editPassword'])->name('editPassword');
+    Route::post('/profile/edit', [AppController::class, 'editProfile'])->name('edit-profile');
 
     /*
     ===============================

@@ -34,8 +34,12 @@
             $('#pindahCircleModal').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
                 var npk = button.data('npk') // Extract info from data-* attributes
+                var circleId = button.data('circle-id');
+                var circleDtId = button.data('circle-dt-id');
                 var modal = $(this)
                 modal.find('#npkInput').val(npk) // Set the value of the input hidden
+                modal.find('#circle').val(circleId);
+                modal.find('#circleDt').val(circleDtId);
             })
         });
     </script>
@@ -94,7 +98,7 @@
                                         id="search-form">
                                         <div class="input-group">
                                             <input type="text" name="search" class="form-control"
-                                                placeholder="Cari Nama Circle atau NPK Leader" value="{{ $search }}">
+                                                placeholder="Cari Nama Circle atau NPK" value="{{ $search }}">
                                             <input type="hidden" id="filter-input" name="filter"
                                                 value="{{ request()->query('filter', '') }}">
                                             <button type="submit" class="btn btn-primary">Cari</button>
@@ -106,16 +110,56 @@
                                 <table class="table">
                                     <tr class="table-primary">
                                         <th>No</th>
+                                        <th class="text-center">Periode</th>
                                         <th>NPK</th>
                                         <th>Nama</th>
-                                        <th>Circle</th>
+                                        <th>Group</th>
+                                        <th>Section</th>
+                                        <th>Department</th>
+                                        <th>Circle QCC</th>
+                                        <th>Circle DT</th>
                                         <th class="col-1">Action</th>
                                     </tr>
                                     @foreach ($user as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
+                                            <td class="text-center">
+                                                @php
+                                                    $activePeriode = \App\Models\Periode::where('status', 1)->value(
+                                                        'periode',
+                                                    );
+                                                    echo $activePeriode;
+                                                @endphp
+                                            </td>
                                             <td>{{ $item->npk }}</td>
                                             <td>{{ $item->name }}</td>
+                                            <td>@php
+                                                $org = \App\Models\Org::where('npk', $item->npk)->first();
+                                                $grpName = $org
+                                                    ? \App\Models\Group::where('id_group', $org->grp)->value(
+                                                        'nama_group',
+                                                    )
+                                                    : 'Tidak ada section';
+                                                echo $grpName;
+                                            @endphp</td>
+                                            <td>@php
+                                                $org = \App\Models\Org::where('npk', $item->npk)->first();
+                                                $sectName = $org
+                                                    ? \App\Models\Section::where('id_section', $org->sect)->value(
+                                                        'section',
+                                                    )
+                                                    : 'Tidak ada section';
+                                                echo $sectName;
+                                            @endphp</td>
+                                            <td>@php
+                                                $org = \App\Models\Org::where('npk', $item->npk)->first();
+                                                $deptName = $org
+                                                    ? \App\Models\Departemen::where('id_dept', $org->dept)->value(
+                                                        'dept',
+                                                    )
+                                                    : 'Tidak ada departemen';
+                                                echo $deptName;
+                                            @endphp</td>
                                             <td>
                                                 @php
                                                     $activePeriode = \App\Models\Periode::where('status', 1)->first();
@@ -134,17 +178,52 @@
                                                             ->first();
 
                                                         $circleName = $circle ? $circle->name : 'Tidak ada circle';
+                                                        $circleId = $circle ? $circle->id : null;
                                                     } else {
                                                         $circleName = $member->circle->name;
+                                                        $circleId = $member->circle->id;
                                                     }
 
                                                     echo $circleName;
                                                 @endphp
                                             </td>
                                             <td>
+                                                @php
+                                                    // Cari member berdasarkan npk_anggota
+                                                    $memberDt = \App\Models\MemberDt::where('npk_anggota', $item->npk)
+                                                        ->whereHas('circle', function ($query) use ($activePeriode) {
+                                                            $query->where('periode', $activePeriode->periode);
+                                                        })
+                                                        ->first();
+                                                    // Jika member tidak ditemukan, cari di npk_leader pada tabel circle
+                                                    if (!$memberDt) {
+                                                        $circleDt = \App\Models\CircleDt::where(
+                                                            'npk_leader',
+                                                            $item->npk,
+                                                        )
+                                                            ->where('periode', $activePeriode->periode)
+                                                            ->first();
+
+                                                        $circleDtName = $circleDt
+                                                            ? $circleDt->name
+                                                            : 'Tidak ada circle';
+                                                        $circleDtId = $circleDt ? $circleDt->id : null;
+                                                    } else {
+                                                        $circleDtName = $memberDt->circle->name;
+                                                        $circleDtId = $memberDt->circle->id;
+                                                    }
+
+                                                    echo $circleDtName;
+                                                @endphp
+                                            </td>
+                                            <td>
                                                 <button class="btn btn-green" data-toggle="modal"
-                                                    data-target="#pindahCircleModal"
-                                                    data-npk="{{ $item->npk }}">Ubah</button>
+                                                    data-target="#pindahCircleModal" data-npk="{{ $item->npk }}"
+                                                    data-circle-id="{{ $circleId }}"
+                                                    data-circle-dt-id="{{ $circleDtId }}"
+                                                    data-circle-name="{{ $circleName }}">
+                                                    Ubah
+                                                </button>
 
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="pindahCircleModal" tabindex="-1" role="dialog"
@@ -167,12 +246,29 @@
                                                                         name="npk" id="npkInput" readonly>
                                                                     <div class="form-group">
                                                                         <label for="circle" class="mb-2">Pilih
-                                                                            Circle</label>
+                                                                            Circle QCC</label>
                                                                         <select class="form-control" id="circle"
                                                                             name="circle_id">
+
                                                                             @foreach ($circles as $circle)
-                                                                                <option value="{{ $circle->id }}">
-                                                                                    {{ $circle->name }}</option>
+                                                                                <option value="{{ $circle->id }}"
+                                                                                    {{ $circle->id == $circleId ? 'selected' : '' }}>
+                                                                                    {{ $circle->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="circle" class="mb-2">Pilih
+                                                                            Circle DT/CBI</label>
+                                                                        <select class="form-control" id="circleDt"
+                                                                            name="circleDt_id">
+
+                                                                            @foreach ($circlesDt as $item)
+                                                                                <option value="{{ $item->id }}"
+                                                                                    {{ $item->id == $circleDtId ? 'selected' : '' }}>
+                                                                                    {{ $item->name }}
+                                                                                </option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>

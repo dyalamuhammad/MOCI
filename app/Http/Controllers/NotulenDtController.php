@@ -94,7 +94,7 @@ class NotulenDtController extends Controller
         $obj->demo_customer = $request->demo_customer;
 
         // Dapatkan id terakhir dari record di tabel Background
-        $lastPersonaId = Persona::latest()->value('id');
+        $lastPersonaId = Persona::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $personaId = $lastPersonaId ? $lastPersonaId + 1 : 1;
@@ -405,7 +405,7 @@ class NotulenDtController extends Controller
         
 
         // Dapatkan id terakhir dari record di tabel Background
-        $lastBrainstormId = Brainstorming::latest()->value('id');
+        $lastBrainstormId = Brainstorming::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $brainstormId = $lastBrainstormId ? $lastBrainstormId + 1 : 1;
@@ -538,8 +538,8 @@ class NotulenDtController extends Controller
         }
         
         // Dapatkan id terakhir dari record di tabel Background
-        $lastBeforeId = StoryBefore::latest()->value('id');
-        $lastAfterId = StoryAfter::latest()->value('id');
+        $lastBeforeId = StoryBefore::max('id');
+        $lastAfterId = StoryAfter::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $beforeId = $lastBeforeId ? $lastBeforeId + 1 : 1;
@@ -721,7 +721,7 @@ class NotulenDtController extends Controller
         $obj->decision = $request->decision;
         if (!empty($request->foto)){
                     // Dapatkan id terakhir dari record di tabel Iterasi
-                    $lastIterasiId = Iterasi::latest()->value('id');
+                    $lastIterasiId = Iterasi::max('id');
             
                     // Jika tidak ada id terakhir, atur id pertama ke 1
                     $iterasiId = $lastIterasiId ? $lastIterasiId + 1 : 1;
@@ -749,8 +749,8 @@ class NotulenDtController extends Controller
                     }
             
                     // Dapatkan id terakhir dari record di tabel storyBefore dan storyAfter
-                    $lastBeforeId = StoryBeforeDt7::latest()->value('id');
-                    $lastAfterId = StoryAfterDt7::latest()->value('id');
+                    $lastBeforeId = StoryBeforeDt7::max('id');
+                    $lastAfterId = StoryAfterDt7::max('id');
                         
                     // Jika tidak ada id terakhir, atur id pertama ke 1
                     $beforeId = $lastBeforeId ? $lastBeforeId + 1 : 1;

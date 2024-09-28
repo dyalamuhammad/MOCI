@@ -7,10 +7,13 @@ use App\Imports\DeptImport;
 use App\Imports\GroupImport;
 use App\Imports\SectionImport;
 use App\Imports\UsersImport;
+use App\Models\Circle;
+use App\Models\CircleDt;
 use App\Models\Departemen;
 use App\Models\Group;
 use App\Models\Langkah;
 use App\Models\Member;
+use App\Models\MemberDt;
 use App\Models\Org;
 use App\Models\Periode;
 use App\Models\Section;
@@ -45,6 +48,7 @@ class AdminController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('users.npk', 'like', "%{$search}%")
                 ->orWhere('users.name', 'like', "%{$search}%")
+                ->orWhere('users.jabatan', 'like', "%{$search}%")
                   ->orWhere(function ($q) use ($search) {
                       $q->whereHas('department', function ($q) use ($search) {
                           $q->where('dept', 'like', "%{$search}%");
@@ -88,7 +92,8 @@ class AdminController extends Controller
         $search = $request->query('search', '');
         $filter = $request->query('filter', '');
         $periodes = Periode::all(); // Mengambil semua data dari tabel periode
-        $circles = \App\Models\Circle::where('periode', $activePeriode->periode)->get();
+        $circles = Circle::where('periode', $activePeriode->periode)->orderBy('name', 'asc')->get();
+        $circlesDt = CircleDt::where('periode', $activePeriode->periode)->get();
 
         $query = User::query();
         if($filter) {
@@ -124,14 +129,15 @@ class AdminController extends Controller
         $user = $query->paginate(20);
     
         // Kirim data ke tampilan
-        return view("admin.control-member", compact('search', 'filter', 'activePeriode', 'periodes', 'user', 'circles'));
+        return view("admin.control-member", compact('search', 'filter', 'activePeriode', 'periodes', 'user', 'circles', 'circlesDt'));
     }
 
     public function pindahCircle(Request $request) {
         try {
             $request->validate([
                 'npk' => 'required',
-                'circle_id' => 'required|exists:circles,id',
+                'circle_id' => 'exists:circles,id',
+                'circleDt_id' => 'exists:circles_dt_cbi,id',
             ]);
     
             // Cari periode yang sedang aktif
@@ -143,10 +149,51 @@ class AdminController extends Controller
                     $query->where('periode', $activePeriode->periode);
                 })
                 ->first();
+
+            $memberDt = MemberDt::where('npk_anggota', $request->npk)
+                ->whereHas('circle', function ($query) use ($activePeriode) {
+                    $query->where('periode', $activePeriode->periode);
+                })
+                ->first();
     
             if ($member) {
                 $member->circle_id = $request->circle_id;
                 $member->save();
+            } else {
+                // Jika member tidak ada, tambahkan member baru
+                Member::create([
+                    'npk_anggota' => $request->npk,
+                    'circle_id' => $request->circle_id,
+                    'l1' => '0',
+                        'l2' => '0',
+                        'l3' => '0',
+                        'l4' => '0',
+                        'l5' => '0',
+                        'l6' => '0',
+                        'l7' => '0',
+                        'l8' => '0',
+                        'nqi' => '0',
+                ]);
+            }
+
+            if ($memberDt) {
+                $memberDt->circle_id = $request->circleDt_id;
+                $memberDt->save();
+            } else {
+                // Jika memberDt tidak ada, tambahkan memberDt baru
+                MemberDt::create([
+                    'npk_anggota' => $request->npk,
+                    'circle_id' => $request->circleDt_id,
+                        'l1' => '0',
+                        'l2' => '0',
+                        'l3' => '0',
+                        'l4' => '0',
+                        'l5' => '0',
+                        'l6' => '0',
+                        'l7' => '0',
+                        'l8' => '0',
+                        'nqi' => '0',
+                ]);                
             }
     
             return redirect()->back()->with('success', 'Circle berhasil diubah');
@@ -156,9 +203,103 @@ class AdminController extends Controller
                 ->with('error', 'Gagal ubah circle. Error: ' . $e->getMessage());
         }
     }
-
     // --------------------- //
     // CONTROL MEMBER END //
+    // --------------------- //
+
+    // --------------------- //
+    // CONTROL LEADER START //
+    // --------------------- //
+    public function controlLeader(Request $request) {
+        $activePeriode = Periode::where('status', 1)->first();
+        $search = $request->query('search', '');
+        $filter = $request->query('filter', '');
+        $periodes = Periode::all(); // Mengambil semua data dari tabel periode
+        $circles = Circle::where('periode', $activePeriode->periode)->orderBy('name', 'asc')->get();
+        $circlesDt = CircleDt::where('periode', $activePeriode->periode)->get();
+        
+        $query = User::query(); // Mulai query dari model User
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")  // Pencarian berdasarkan nama user
+                ->orWhere('npk', 'like', "%{$search}%") // Pencarian berdasarkan npk user
+                ->orWhereHas('circle', function ($q) use ($search) {  // Pencarian di tabel Circle
+                    $q->where('name', 'like', "%{$search}%"); // Pencarian berdasarkan nama Circle
+                });
+            });
+        }
+
+        // Pencarian pada npk yang ada di tabel Circle dan CircleDt
+        $query->where(function ($q) {
+            $q->whereHas('circle', function ($q) {
+                $q->whereNotNull('npk_leader'); // Memastikan circle memiliki npk_leader
+            })->orWhereHas('circleDt', function ($q) {
+                $q->whereNotNull('npk_leader'); // Memastikan circle_dt memiliki npk_leader
+            });
+        });
+
+        $user = $query->get(); 
+
+    
+        // Kirim data ke tampilan
+        return view("admin.control-leader", compact('search', 'filter', 'activePeriode', 'periodes', 'user', 'circles', 'circlesDt'));
+    }
+
+    public function updateNpkLeader(Request $request)
+{
+    // Validasi input
+    $request->validate([
+        'circle_id' => 'required|exists:circles,id',
+        'npk_leader_new' => 'required|exists:users,npk',  // Pastikan npk_leader baru ada di tabel users
+    ]);
+
+    // Cari circle berdasarkan id
+    $circle = Circle::find($request->circle_id);
+
+    // Update npk_leader
+    $circle->npk_leader = $request->npk_leader_new;
+
+    // Cari nama leader dari tabel users berdasarkan npk_leader baru
+    $leaderName = \App\Models\User::where('npk', $request->npk_leader_new)->value('name');
+
+    // Update kolom leader di circle
+    $circle->leader = $leaderName;
+
+    // Simpan perubahan
+    $circle->save();
+
+    return redirect()->back()->with('success', 'NPK Leader dan Leader berhasil diubah.');
+}
+    public function updateNpkLeaderDt(Request $request)
+{
+    // Validasi input
+    $request->validate([
+        'circle_id' => 'required|exists:circles_dt_cbi,id',
+        'npk_leader_new' => 'required|exists:users,npk',  // Pastikan npk_leader baru ada di tabel users
+    ]);
+
+    // Cari circle berdasarkan id
+    $circleDt = CircleDt::find($request->circle_id);
+
+    // Update npk_leader
+    $circleDt->npk_leader = $request->npk_leader_new;
+
+    // Cari nama leader dari tabel users berdasarkan npk_leader baru
+    $leaderName = \App\Models\User::where('npk', $request->npk_leader_new)->value('name');
+
+    // Update kolom leader di circle
+    $circleDt->leader = $leaderName;
+
+    // Simpan perubahan
+    $circleDt->save();
+
+    return redirect()->back()->with('success', 'NPK Leader dan Leader berhasil diubah.');
+}
+
+
+    // --------------------- //
+    // CONTROL LEADER END //
     // --------------------- //
 
     // --------------------- //
@@ -464,7 +605,11 @@ class AdminController extends Controller
         $obj->jabatan = $request->jabatan;
         $obj->status = $request->status;
         $obj->shift = $request->shift;
-        $obj->password = $request->password;
+        if ($request->input('password') == $obj->password) {
+            $obj->password;
+        } else {
+            $obj->password = $request->input('password');
+        }
         $obj->tgl_masuk = $request->tgl_masuk;
         
         

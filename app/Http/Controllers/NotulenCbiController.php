@@ -94,7 +94,7 @@ class NotulenCbiController extends Controller
         $obj->demo_customer = $request->demo_customer;
 
         // Dapatkan id terakhir dari record di tabel Background
-        $lastPersonaId = PersonaCbi::latest()->value('id');
+        $lastPersonaId = PersonaCbi::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $personaId = $lastPersonaId ? $lastPersonaId + 1 : 1;
@@ -407,7 +407,7 @@ class NotulenCbiController extends Controller
         
 
         // Dapatkan id terakhir dari record di tabel Background
-        $lastBrainstormId = BrainstormingCbi::latest()->value('id');
+        $lastBrainstormId = BrainstormingCbi::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $brainstormId = $lastBrainstormId ? $lastBrainstormId + 1 : 1;
@@ -540,8 +540,8 @@ class NotulenCbiController extends Controller
         }
         
         // Dapatkan id terakhir dari record di tabel Background
-        $lastBeforeId = StoryBeforeCbi::latest()->value('id');
-        $lastAfterId = StoryAfterCbi::latest()->value('id');
+        $lastBeforeId = StoryBeforeCbi::max('id');
+        $lastAfterId = StoryAfterCbi::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $beforeId = $lastBeforeId ? $lastBeforeId + 1 : 1;
@@ -717,7 +717,7 @@ class NotulenCbiController extends Controller
         $obj->decision = $request->decision;
         if (!empty($request->foto)){
                     // Dapatkan id terakhir dari record di tabel Iterasi
-                    $lastIterasiId = IterasiCbi::latest()->value('id');
+                    $lastIterasiId = IterasiCbi::max('id');
             
                     // Jika tidak ada id terakhir, atur id pertama ke 1
                     $iterasiId = $lastIterasiId ? $lastIterasiId + 1 : 1;
@@ -745,8 +745,8 @@ class NotulenCbiController extends Controller
                     }
             
                     // Dapatkan id terakhir dari record di tabel storyBefore dan storyAfter
-                    $lastBeforeId = StoryBeforeCbi7::latest()->value('id');
-                    $lastAfterId = StoryAfterCbi7::latest()->value('id');
+                    $lastBeforeId = StoryBeforeCbi7::max('id');
+                    $lastAfterId = StoryAfterCbi7::max('id');
                         
                     // Jika tidak ada id terakhir, atur id pertama ke 1
                     $beforeId = $lastBeforeId ? $lastBeforeId + 1 : 1;

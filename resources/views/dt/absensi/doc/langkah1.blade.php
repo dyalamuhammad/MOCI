@@ -214,13 +214,11 @@
                         </div>
                         <div class="mb-2 ">
                             <label for="nama">Background/Problem</label>
-                            <input type="text" class="form-control text-capitalize" name="circle_name"
-                                value="{{ $background ?? '' }}" readonly>
+                            <textarea type="text" class="form-control text-capitalize" rows="3" name="circle_name" readonly>{{ $background ?? '' }}</textarea>
                         </div>
                         <div class="mb-2 ">
                             <label for="nama">Demografi Customer</label>
-                            <input type="text" class="form-control text-capitalize" name="circle_name"
-                                value="{{ $demografi ?? '' }}" readonly>
+                            <textarea type="text" class="form-control text-capitalize" name="circle_name" rows="3" readonly>{{ $demografi ?? '' }}</textarea>
                         </div>
                         <div class="mb-2 ">
                             <label for="nama">Pemilihan Persona</label>
@@ -236,8 +234,12 @@
                                     <td>{{ $namaPersona }}</td>
                                     <td>{{ $usiaPersona }}</td>
                                     <td>{{ $asalPersona }}</td>
-                                    <td>{{ $motivasiPersona }}</td>
-                                    <td>{{ $apaPersona }}</td>
+                                    <td>
+                                        <textarea class="form-control py-0" cols="30" rows="10" style="background: transparent">{{ $motivasiPersona }} </textarea>
+                                    </td>
+                                    <td>
+                                        <textarea class="form-control py-0" cols="30" rows="10" style="background: transparent">{{ $apaPersona }}</textarea>
+                                    </td>
                                 </tr>
                             </table>
                         </div>

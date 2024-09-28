@@ -209,6 +209,7 @@
                                                                 <td class="align-middle py-0">
                                                                     @if ($circle->l1 >= 1)
                                                                         <i class="bi bi-check2-all fs-4 text-success"></i>
+                                                                        <p class="d-none">Sudah Approve</p>
                                                                     @else
                                                                         <i>-</i>
                                                                     @endif
@@ -216,6 +217,7 @@
                                                                 <td class="align-middle py-0">
                                                                     @if ($circle->l2 >= 1)
                                                                         <i class="bi bi-check2-all fs-4 text-success"></i>
+                                                                        <p class="d-none">Sudah Approve</p>
                                                                     @else
                                                                         <i>-</i>
                                                                     @endif
@@ -223,6 +225,7 @@
                                                                 <td class="align-middle py-0">
                                                                     @if ($circle->l3 >= 1)
                                                                         <i class="bi bi-check2-all fs-4 text-success"></i>
+                                                                        <p class="d-none">Sudah Approve</p>
                                                                     @else
                                                                         <i>-</i>
                                                                     @endif
@@ -230,6 +233,7 @@
                                                                 <td class="align-middle py-0">
                                                                     @if ($circle->l4 >= 1)
                                                                         <i class="bi bi-check2-all fs-4 text-success"></i>
+                                                                        <p class="d-none">Sudah Approve</p>
                                                                     @else
                                                                         <i>-</i>
                                                                     @endif
@@ -237,6 +241,7 @@
                                                                 <td class="align-middle py-0">
                                                                     @if ($circle->l5 >= 1)
                                                                         <i class="bi bi-check2-all fs-4 text-success"></i>
+                                                                        <p class="d-none">Sudah Approve</p>
                                                                     @else
                                                                         <i>-</i>
                                                                     @endif
@@ -244,6 +249,7 @@
                                                                 <td class="align-middle py-0">
                                                                     @if ($circle->l6 >= 1)
                                                                         <i class="bi bi-check2-all fs-4 text-success"></i>
+                                                                        <p class="d-none">Sudah Approve</p>
                                                                     @else
                                                                         <i>-</i>
                                                                     @endif
@@ -251,6 +257,7 @@
                                                                 <td class="align-middle py-0">
                                                                     @if ($circle->l7 >= 1)
                                                                         <i class="bi bi-check2-all fs-4 text-success"></i>
+                                                                        <p class="d-none">Sudah Approve</p>
                                                                     @else
                                                                         <i>-</i>
                                                                     @endif
@@ -258,6 +265,7 @@
                                                                 <td class="align-middle py-0">
                                                                     @if ($circle->l8 >= 1)
                                                                         <i class="bi bi-check2-all fs-4 text-success"></i>
+                                                                        <p class="d-none">Sudah Approve</p>
                                                                     @else
                                                                         <i>-</i>
                                                                     @endif
@@ -265,6 +273,7 @@
                                                                 <td class="align-middle py-0">
                                                                     @if ($circle->nqi >= 1)
                                                                         <i class="bi bi-check2-all fs-4 text-success"></i>
+                                                                        <p class="d-none">Sudah Approve</p>
                                                                     @else
                                                                         <i>-</i>
                                                                     @endif

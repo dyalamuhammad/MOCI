@@ -192,6 +192,9 @@ class AppController extends Controller
         $user = Auth::user();
         // Ambil NPK user yang sedang login
         $userNpk = auth()->user()->npk;
+        $group = Group::all();
+        $section = Section::all();
+        $department = Departemen::all();
 
         $jabatan = $user->jabatan;
 
@@ -240,7 +243,7 @@ class AppController extends Controller
             $deptName = "Tidak ada departemen"; // Atau tindakan lain jika user tidak memiliki grup
         } 
 
-        return view('profile', compact('user', 'groupName', 'sectName', 'deptName', 'jabatan'));
+        return view('profile', compact('user', 'groupName', 'sectName', 'deptName', 'jabatan', 'groupId', 'group', 'sectionId', 'deptId', 'section', 'department', 'userNpk'));
     }
 
     public function editPassword(Request $request)
@@ -269,6 +272,23 @@ class AppController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'Gagal edit password. Error: ' . $e->getMessage());
+        }
+    }
+
+    public function editProfile(Request $request) {
+        try {
+            $obj = Org::where('npk', $request->npk)->first();
+            // @dd($obj);
+            $obj->grp = $request->grp;
+            $obj->sect = $request->sect;
+            $obj->dept = $request->dept;
+            $obj->division = '1-001';
+        
+            $obj->save();
+            return redirect()->back()->with('success', 'Struktur berhasil diperbarui.');
+        }  catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Gagal edit struktur. Error: ' . $e->getMessage());
         }
     }
 }

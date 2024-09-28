@@ -146,9 +146,10 @@
                             </div>
                             <div class="col-6">
                                 <label for="nama">Password</label>
-                                <input type="password" class="form-control" name="password"
+                                <input type="password" class="form-control" id="password" name="password"
                                     value="{{ old('password') ?? ($forms['password'] ?? '') }}">
                             </div>
+
                             <div class="col-12 d-flex justify-content-between">
 
                                 <button class="btn btn-green col-auto mt-5" onclick="javascript:history.back()"

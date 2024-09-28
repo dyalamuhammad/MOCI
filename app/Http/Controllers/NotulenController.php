@@ -88,8 +88,8 @@ class NotulenController extends Controller
         }
 
         // Dapatkan id terakhir dari record di tabel Background
-        $lastBackgroundId = Background::latest()->value('id');
-        $lastTemaId = Background::latest()->value('id');
+        $lastBackgroundId = Background::max('id');
+        $lastTemaId = Tema::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $backgroundId = $lastBackgroundId ? $lastBackgroundId + 1 : 1;
@@ -205,9 +205,9 @@ class NotulenController extends Controller
         $obj->circle_id = $request->circle_id;
 
         // Dapatkan id terakhir dari record di tabel Background
-        $lastAspekMutuId = AspekMutu::latest()->value('id');
-        $lastSmartCId = SmartC::latest()->value('id');
-        $lastDampakId = DampakPositif::latest()->value('id');
+        $lastAspekMutuId = AspekMutu::max('id');
+        $lastSmartCId = SmartC::max('id');
+        $lastDampakId = DampakPositif::max('id');
         
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $aspekMutuId = $lastAspekMutuId ? $lastAspekMutuId + 1 : 1;
@@ -361,8 +361,8 @@ class NotulenController extends Controller
         $obj->circle_id = $request->circle_id;
 
         // Dapatkan id terakhir dari record di tabel Background
-        $lastAnalisa4m1eId = Analisa4m1e::latest()->value('id');
-        $lastUjiPenyebabId = UjiPenyebab::latest()->value('id');
+        $lastAnalisa4m1eId = Analisa4m1e::max('id');
+        $lastUjiPenyebabId = UjiPenyebab::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $analisa4m1eId = $lastAnalisa4m1eId ? $lastAnalisa4m1eId + 1 : 1;
@@ -528,7 +528,7 @@ class NotulenController extends Controller
         
 
         // Dapatkan id terakhir dari record di tabel Background
-        $lastrencanaId = RencanaPerbaikan::latest()->value('id');
+        $lastrencanaId = RencanaPerbaikan::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $rencanaId = $lastrencanaId ? $lastrencanaId + 1 : 1;
@@ -674,7 +674,7 @@ class NotulenController extends Controller
         }
 
         // Dapatkan id terakhir dari record di tabel Background
-        $lastImplemenId = ImplemenPerbaikan::latest()->value('id');
+        $lastImplemenId = ImplemenPerbaikan::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $implemenId = $lastImplemenId ? $lastImplemenId + 1 : 1;
@@ -792,7 +792,7 @@ class NotulenController extends Controller
         $obj->circle_id = $request->circle_id;
         
         // Dapatkan id terakhir dari record di tabel Background
-        $lastmanfaatId = ManfaatPanca::latest()->value('id');
+        $lastmanfaatId = ManfaatPanca::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $manfaatId = $lastmanfaatId ? $lastmanfaatId + 1 : 1;
@@ -881,7 +881,7 @@ class NotulenController extends Controller
         $obj->circle_id = $request->circle_id;
 
         // Dapatkan id terakhir dari record di tabel Background
-        $lastStandarisasiId = Standarisasi::latest()->value('id');
+        $lastStandarisasiId = Standarisasi::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $rencanaId = $lastStandarisasiId ? $lastStandarisasiId + 1 : 1;
@@ -1007,7 +1007,7 @@ class NotulenController extends Controller
         }
 
         // Dapatkan id terakhir dari record di tabel Background
-        $lastBackgroundId = BackgroundL8::latest()->value('id');
+        $lastBackgroundId = BackgroundL8::max('id');
             
         // Jika tidak ada id terakhir, atur id pertama ke 1
         $backgroundId = $lastBackgroundId ? $lastBackgroundId + 1 : 1;
