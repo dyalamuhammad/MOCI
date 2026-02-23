@@ -16,6 +16,7 @@
     <meta name="description" content="" />
     <meta name="keywords" content="">
     <meta name="author" content="Phoenixcoded" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon icon -->
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -48,6 +49,12 @@
         position: relative;
         overflow: hidden;
     }
+
+    #video {
+        width: 100%;
+        max-width: 600px;
+        border: 2px solid #000;
+    }
 </style>
 
 <body data-bs-theme="light">
@@ -68,6 +75,7 @@
                 </div>
                 <div class="col-12 col-xl-5 align-content-center px-5" data-aos='fade-up'>
                     <h1 class="fw-bold mb-3">Login</h1>
+                    {{-- form login --}}
                     <form action="{{ route('doLogin') }}" method="post">
                         @csrf
                         <div class="d-flex gap-3">
@@ -88,17 +96,41 @@
                                 <label for="floatingInput" class="fw-normal">Password</label>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-end mt-5">
+                        <div class="d-flex justify-content-end mt-5 gap-3">
 
                             <button class="btn col-6 btn-purple rounded-3" type="submit">Sign
                                 in</button>
+                            <button class="btn col-6 btn-purple rounded-3" type="button" id="startScanButton">Scan
+                                Face</button>
                         </div>
                     </form>
+                    {{-- form login --}}
 
+                    <!-- Bootstrap Modal -->
                 </div>
+                <div class="modal fade" id="faceScanModal" tabindex="-1" aria-labelledby="faceScanModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="faceScanModalLabel">Scanning Wajah</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <img id="video" width="100%" height="auto" alt="Streaming Video">
+                                <canvas id="canvas" style="display:none;"></canvas>
+                                <p id="status" class="mt-3"></p>
+                                <p id="auth-message" class="text-danger"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
+
 
 
     <!-- [ auth-signin ] end -->
@@ -127,6 +159,90 @@
     <script>
         AOS.init();
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const faceScanModal = new bootstrap.Modal(document.getElementById("faceScanModal"));
+            const videoElement = document.getElementById("video");
+            let intervalId = null;
+            let timeoutId = null; // Untuk menyimpan ID timeout
+
+            function startFaceScan() {
+                videoElement.src = "http://127.0.0.1:5000/video_feed"; // Mulai streaming video
+                faceScanModal.show(); // Tampilkan modal
+                intervalId = setInterval(checkFaceStatus, 3000); // Cek status wajah setiap 2 detik
+
+                // Set timeout untuk 10 detik
+                timeoutId = setTimeout(() => {
+                    stopFaceScan(); // Hentikan scan
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Deteksi Wajah Gagal',
+                        text: 'Wajah tidak dikenali!',
+                    });
+                }, 10000); // 10 detik
+            }
+
+            function stopFaceScan() {
+                clearInterval(intervalId); // Hentikan interval polling
+                clearTimeout(timeoutId); // Hentikan timeout
+                videoElement.src = "";
+                faceScanModal.hide(); // Tutup modal
+            }
+
+            function checkFaceStatus() {
+                console.log("📢 Memanggil /face_status..."); // Debug log di browser
+                fetch('http://127.0.0.1:5000/face_status')
+                    .then(response => {
+                        console.log("📢 Received response:", response);
+                        return response.text(); // Ambil response dalam bentuk teks dulu
+                    })
+                    .then(text => {
+                        console.log("📢 Raw response dari server:", text);
+                        return JSON.parse(text); // Ubah ke JSON manual
+                    })
+                    .then(data => {
+                        console.log("📢 Response dari server:", data); // Debug response dari server
+                        document.getElementById("status").innerHTML = data.message;
+                        if (data.redirect) {
+                            console.log("📢 melakukan fetch ke /set-face-auth");
+                            fetch('/login-face', {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                                            .getAttribute('content')
+                                    },
+                                    body: JSON.stringify({
+                                        npk: data.npk
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(sessionData => {
+                                    if (sessionData.success) {
+                                        clearInterval(intervalId);
+                                        clearTimeout(timeoutId);
+                                        stopFaceScan(); // Hentikan polling setelah sukses
+                                        window.location.href =
+                                            "/dashboard-moci"; // Redirect ke halaman home
+                                    } else {
+                                        document.getElementById("auth-message").innerText =
+                                            "Autentikasi gagal!";
+                                    }
+                                });
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+            }
+
+            // Panggil startFaceScan saat scan wajah dimulai
+            document.getElementById("startScanButton").addEventListener("click", startFaceScan);
+
+            // Tambahkan logika untuk menutup modal setelah scan selesai
+            document.getElementById("faceScanModal").addEventListener("hidden.bs.modal", stopFaceScan);
+        });
+    </script>
+
 </body>
 
 </html>

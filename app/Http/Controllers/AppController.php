@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Circle;
 use App\Models\CircleDt;
 use App\Models\Departemen;
+use App\Models\Face;
 use App\Models\Group;
 use App\Models\Langkah;
 use App\Models\Org;
@@ -12,10 +13,13 @@ use App\Models\Periode;
 use App\Models\PowerMeter;
 use App\Models\Section;
 use App\Models\User;
+use App\Models\UserFace;
 use Carbon\Carbon;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class AppController extends Controller
 {
@@ -195,6 +199,8 @@ class AppController extends Controller
         $group = Group::all();
         $section = Section::all();
         $department = Departemen::all();
+        $faces = Face::where('npk', $userNpk)->value('image_path');
+
 
         $jabatan = $user->jabatan;
 
@@ -243,9 +249,48 @@ class AppController extends Controller
             $deptName = "Tidak ada departemen"; // Atau tindakan lain jika user tidak memiliki grup
         } 
 
-        return view('profile', compact('user', 'groupName', 'sectName', 'deptName', 'jabatan', 'groupId', 'group', 'sectionId', 'deptId', 'section', 'department', 'userNpk'));
+        return view('profile', compact('faces','user', 'groupName', 'sectName', 'deptName', 'jabatan', 'groupId', 'group', 'sectionId', 'deptId', 'section', 'department', 'userNpk'));
+    }
+    public function registerFace() {
+        
+
+        return view('register-face');
     }
 
+    public function storeFace(Request $request) {  
+        try {
+            // Path untuk menyimpan gambar
+            $imagePath = 'images/faces/';
+    
+            // Mendapatkan file dari request
+            $image = $request->file('image');
+    
+            // Mengambil karakter pertama dari name dan konversi ke huruf kecil
+            $firstWord = strtolower(explode(' ', trim($request->name))[0]);
+    
+            // Membuat nama file dengan format: karakter_pertama.extension
+            $imageName = $firstWord . '.' . $image->getClientOriginalExtension();
+    
+            // Memindahkan file ke folder public/images/faces
+            $image->move(public_path($imagePath), $imageName);
+    
+            // Menyimpan informasi ke database
+            $obj = new UserFace();
+            $obj->user_id = $request->user_id;
+            $obj->name = $request->name;
+            $obj->image = $imagePath . $imageName; // Menyimpan path file
+            $obj->save();
+
+         
+    
+                return redirect()->back()->with('success', 'Data wajah tersimpan.');   
+            } catch (\Exception $e) {
+                return redirect()->back()
+                    ->with('error', 'Gagal menyimpan wajah. Error: ' . $e->getMessage());
+            } 
+         }
+    
+ 
     public function editPassword(Request $request)
     {
         try {
@@ -289,6 +334,58 @@ class AppController extends Controller
         }  catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'Gagal edit struktur. Error: ' . $e->getMessage());
+        }
+    }
+    public function editFace(Request $request) {
+        try {
+            // Ambil data wajah berdasarkan npk lama
+        $faces = Face::where('npk', $request->npk)->get();
+    
+        if ($faces->count() > 0) {
+            foreach ($faces as $face) {
+                $face->npk = $request->npk;
+                $face->name = $request->name;
+                $face->save();
+            }
+        }
+            if ($request->hasFile('faces')) {
+                $file = $request->file('faces');
+                $client = new \GuzzleHttp\Client();
+                try {
+                    $response = $client->post('http://localhost:5000/add_face', [
+                        'multipart' => [
+                            [
+                                'name'     => 'image',
+                                'contents' => fopen($file->getPathname(), 'r'),
+                                'filename' => $file->getClientOriginalName()
+                            ],
+                            [
+                                'name'     => 'name',
+                                'contents' => $request->name
+                            ],
+                            [
+                                'name'     => 'npk',
+                                'contents' => $request->npk
+                            ],
+                        ],
+                        'http_errors' => false,
+                    ]);
+
+                    // Opsional: handle responsenya
+                    $responseData = json_decode($response->getBody(), true);
+
+                    if ($response->getStatusCode() >= 400) {
+                        return redirect()->back()->with('error', $responseData['error'] ?? 'Gagal update wajah.');
+                    }
+                 } catch (RequestException $e) {
+                    return redirect()->back()->with('error', 'Tidak dapat menghubungi server deteksi wajah.');
+                }
+            }
+    
+            return redirect()->back()->with('success', 'Wajah berhasil diperbarui.');
+        }  catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Gagal edit wajah. Error: ' . $e->getMessage());
         }
     }
 }

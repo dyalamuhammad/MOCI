@@ -224,7 +224,8 @@
 
                                             </td>
                                             <td>{{ $item->id_dept }}</td>
-                                            <td class="text-center"><a class="btn btn-sm btn-green"
+                                            <td class="text-center">
+                                                <a class="btn btn-sm btn-green"
                                                     href="{{ route('edit-section', ['id' => $item->id]) }}">Detail</a>
                                                 <button class="btn btn-sm btn-danger"
                                                     onclick="doDelete({{ $item->id }})">Hapus</button>

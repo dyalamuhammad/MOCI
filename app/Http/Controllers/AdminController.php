@@ -10,6 +10,7 @@ use App\Imports\UsersImport;
 use App\Models\Circle;
 use App\Models\CircleDt;
 use App\Models\Departemen;
+use App\Models\Face;
 use App\Models\Group;
 use App\Models\Langkah;
 use App\Models\Member;
@@ -598,23 +599,27 @@ class AdminController extends Controller
 
     // add user start
     public function storeorupdate(Request $request, $id = null) {
-        
+
         $obj = $id === null ? new User() : User::find($id);
+    
+        // Simpan npk lama sebelum diubah
+        $oldNpk = $obj->npk;
+    
         $obj->name = $request->name;
         $obj->npk = $request->npk;
         $obj->jabatan = $request->jabatan;
         $obj->status = $request->status;
         $obj->shift = $request->shift;
+    
         if ($request->input('password') == $obj->password) {
             $obj->password;
         } else {
             $obj->password = $request->input('password');
         }
+    
         $obj->tgl_masuk = $request->tgl_masuk;
-        
-        
         $obj->save();
-        
+    
         // Simpan data org
         $org = Org::firstOrNew(['npk' => $request->npk]);
         $org->grp = $request->grp;
@@ -622,15 +627,24 @@ class AdminController extends Controller
         $org->dept = $request->dept;
         $org->division = '1-001';
         $org->save();
-
+    
+        // Ambil data wajah berdasarkan npk lama
+        $faces = Face::where('npk', $oldNpk)->get();
+    
+        if ($faces->count() > 0) {
+            foreach ($faces as $face) {
+                $face->npk = $request->npk;
+                $face->name = $request->name;
+                $face->save();
+            }
+        }
     }
+    
     public function doValidate($request, $id=null) {
         $model = [
             'name' => 'required',
-            'npk' => 'required',
             'jabatan' => 'required',
             'status' => 'required',
-            'jabatan' => 'required',
             'tgl_masuk' => 'required',
             'npk' => 'required|string|max:255|unique:users,npk,' . $id,
         ];
@@ -720,12 +734,14 @@ class AdminController extends Controller
     // edit user start
     public function editUser($id) {
         $user = User::find($id); 
+        $user_id = $id; 
         $group = Group::all();
         $section = Section::all();
         $department = Departemen::all();
-     
+        
         // Ambil NPK user yang sedang login
         $userNpk = $user->npk;
+        $faces = Face::where('npk', $userNpk)->value('image_path');
 
         // tanggal masuk
         $tglMasuk = $user->tgl_masuk;
@@ -772,7 +788,9 @@ class AdminController extends Controller
             'sectionName' => $sectionName,
             'deptId' => $deptId,
             'deptName' => $deptName,
-            'tglMasuk' => $tglMasuk
+            'tglMasuk' => $tglMasuk,
+            'faces'=> $faces,
+            'user_id'=> $user_id,
         ];
         return view('admin.form.edit', $data, compact('group', 'section', 'department'));
     }
@@ -780,8 +798,34 @@ class AdminController extends Controller
         try {
             $this->doValidate($request, $id);
             $this->storeorupdate($request, $id);
+            // Jika ada file wajah diupload, kirim ke service Python
+            if ($request->hasFile('faces')) {
+                $file = $request->file('faces');
+
+                $client = new \GuzzleHttp\Client();
+                $response = $client->post('http://localhost:5000/add_face', [
+                    'multipart' => [
+                        [
+                            'name'     => 'image',
+                            'contents' => fopen($file->getPathname(), 'r'),
+                            'filename' => $file->getClientOriginalName()
+                        ],
+                        [
+                            'name'     => 'name',
+                            'contents' => $request->name
+                        ],
+                        [
+                            'name'     => 'npk',
+                            'contents' => $request->npk
+                        ],
+                    ]
+                ]);
+
+                // Opsional: handle responsenya
+                $responseData = json_decode($response->getBody(), true);
+            }
             
-            return redirect()->route('karyawan')
+            return redirect()->back()
             ->with('success', 'Berhasil edit manpower');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -864,7 +908,9 @@ class AdminController extends Controller
 
         $username = $user->name;
     	$user->delete();
-    	$org->delete();
+        if($org) {
+            $org->delete();
+        }
         return redirect()->back()->with('success', 'Berhasil hapus manpower: '. $username);
     }
 

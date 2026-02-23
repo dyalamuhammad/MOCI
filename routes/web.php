@@ -14,6 +14,7 @@ use App\Http\Controllers\DocumentCbiController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DocumentDtController;
 use App\Http\Controllers\DtController;
+use App\Http\Controllers\FaceRecognitionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\KsController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\NotulenController;
 use App\Http\Controllers\NotulenDtController;
 use App\Http\Controllers\QccController;
 use App\Http\Controllers\SsController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Excel;
 
@@ -39,9 +41,35 @@ use Maatwebsite\Excel\Excel;
 Route::get('/', [HomeController::class, 'index'])->name('dashboard-home');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'doLogin'])->name('doLogin');
+Route::post('/login-face', [AuthController::class, 'setFaceAuth']);
+
+Route::post('/set-face-auth', function (Request $request) {
+    $name = $request->input('name');
+
+    if ($name) {
+        session(['authenticated_face' => $name]);
+        return response()->json(["success" => true, "message" => "Autentikasi wajah berhasil"]);
+    }
+
+    return response()->json(["success" => false, "message" => "Autentikasi gagal"], 401);
+});
 Route::get('/logout', [AuthController::class, 'doLogout'])->middleware(['auth'])->name('doLogout');
+Route::post('/recognize', [FaceRecognitionController::class, 'recognize'])->name('recognize');
+Route::get('/scan', function () {
+    return view('scan'); // Menampilkan view scan.blade.php
+});
+
+// daftarkan wajah anda
+Route::get('/register-face', [AppController::class, 'registerFace'])->name('registerFace');
+Route::post('/upload_face', [AppController::class, 'storeFace'])->name('storeFace');
+// ambil data wajah
+Route::get('/get-user-face', [FaceRecognitionController::class, 'getUserFaces'])->name('getUserFaces');
+// home new
+Route::get('/home', [FaceRecognitionController::class, 'homeNew'])->name('homeNew');
+
 
 Route::middleware(['auth', 'Superadmin'])->group(function () {
+
     // ------Home--------
     Route::get('/moci', [AppController::class, 'index'])->name('home');
    
@@ -231,6 +259,9 @@ Route::middleware(['auth', 'Management'])->group(function () {
     Route::get('/profile', [AppController::class, 'profile'])->name('profile');
     Route::post('/profile', [AppController::class, 'editPassword'])->name('editPassword');
     Route::post('/profile/edit', [AppController::class, 'editProfile'])->name('edit-profile');
+    Route::post('/profile/edit/{id}', [AppController::class, 'editFace'])->name('edit-face');
+    
+    
 
     /*
     ===============================

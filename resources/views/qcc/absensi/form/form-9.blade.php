@@ -236,7 +236,7 @@
                             </div>
                             <div class="col-12 ">
                                 <label for="">Upload file NQI</label>
-                                <input type="file" class="form-control" name="file">
+                                <input type="file" class="form-control" name="file" accept=".pdf">
                             </div>
 
                             <div class="col-12 text-end">

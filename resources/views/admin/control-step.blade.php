@@ -41,7 +41,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table">
-                                    <tr class="table-danger text-center">
+                                    <tr class="table-primary text-center">
                                         <th class="col-1">Periode</th>
                                         <th>Tema</th>
                                         <th>Tanggal Mulai</th>

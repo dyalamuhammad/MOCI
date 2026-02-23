@@ -8,6 +8,7 @@ use App\Models\Group;
 use App\Models\Langkah;
 use App\Models\Notulen1;
 use App\Models\Org;
+use App\Models\Periode;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -77,8 +78,8 @@ class AbsenController extends Controller
                 // Jika data tema_leader tidak ditemukan di tabel Org
                 echo "Data tema_leader tidak ditemukan.";
             }
-
-            $langkah = Langkah::where('name', 'L1')->first(); // Mengambil langkah dengan nama L0
+            $activePeriodeId = Periode::where('status', 1)->value('id');
+            $langkah = Langkah::where('name', 'L1')->where('periode_id', $activePeriodeId)->first(); // Mengambil langkah dengan nama L0
             
        
             $today = Carbon::now()->toDateString(); // Tanggal hari ini
@@ -158,7 +159,8 @@ class AbsenController extends Controller
                 // Jika data tema_leader tidak ditemukan di tabel Org
                 echo "Data tema_leader tidak ditemukan.";
             }
-            $langkah = Langkah::where('name', 'L2')->first(); // Mengambil langkah dengan nama L1
+            $activePeriodeId = Periode::where('status', 1)->value('id');
+            $langkah = Langkah::where('name', 'L2')->where('periode_id', $activePeriodeId)->first(); // Mengambil langkah dengan nama L1
 
             $today = Carbon::now()->toDateString(); // Tanggal hari ini
             $endDate = $langkah->sampai; // Tanggal sampai pada langkah L0
@@ -237,7 +239,9 @@ class AbsenController extends Controller
             echo "Data tema_leader tidak ditemukan.";
         }
 
-        $langkah = Langkah::where('name', 'L3')->first(); // Mengambil langkah dengan nama L2
+
+        $activePeriodeId = Periode::where('status', 1)->value('id');        
+        $langkah = Langkah::where('name', 'L3')->where('periode_id', $activePeriodeId)->first(); // Mengambil langkah dengan nama L2
 
         $today = Carbon::now()->toDateString(); // Tanggal hari ini
         $endDate = $langkah->sampai; // Tanggal sampai pada langkah L0
@@ -317,7 +321,9 @@ class AbsenController extends Controller
             echo "Data tema_leader tidak ditemukan.";
         }
 
-        $langkah = Langkah::where('name', 'L4')->first(); // Mengambil langkah dengan nama L2
+
+        $activePeriodeId = Periode::where('status', 1)->value('id');        
+        $langkah = Langkah::where('name', 'L4')->where('periode_id', $activePeriodeId)->first(); // Mengambil langkah dengan nama L2
 
         $today = Carbon::now()->toDateString(); // Tanggal hari ini
         $endDate = $langkah->sampai; // Tanggal sampai pada langkah L0
@@ -397,7 +403,9 @@ class AbsenController extends Controller
             echo "Data tema_leader tidak ditemukan.";
         }
 
-        $langkah = Langkah::where('name', 'L5')->first(); // Mengambil langkah dengan nama L2
+
+        $activePeriodeId = Periode::where('status', 1)->value('id');        
+        $langkah = Langkah::where('name', 'L5')->where('periode_id', $activePeriodeId)->first(); // Mengambil langkah dengan nama L2
 
         $today = Carbon::now()->toDateString(); // Tanggal hari ini
         $endDate = $langkah->sampai; // Tanggal sampai pada langkah L0
@@ -478,7 +486,9 @@ class AbsenController extends Controller
             echo "Data tema_leader tidak ditemukan.";
         }
 
-        $langkah = Langkah::where('name', 'L6')->first(); // Mengambil langkah dengan nama L2
+
+        $activePeriodeId = Periode::where('status', 1)->value('id');        
+        $langkah = Langkah::where('name', 'L6')->where('periode_id', $activePeriodeId)->first(); // Mengambil langkah dengan nama L2
 
         $today = Carbon::now()->toDateString(); // Tanggal hari ini
         $endDate = $langkah->sampai; // Tanggal sampai pada langkah L0
@@ -559,7 +569,9 @@ class AbsenController extends Controller
             echo "Data tema_leader tidak ditemukan.";
         }
 
-        $langkah = Langkah::where('name', 'L7')->first(); // Mengambil langkah dengan nama L2
+
+        $activePeriodeId = Periode::where('status', 1)->value('id');        
+        $langkah = Langkah::where('name', 'L7')->where('periode_id', $activePeriodeId)->first(); // Mengambil langkah dengan nama L2
 
         $today = Carbon::now()->toDateString(); // Tanggal hari ini
         $endDate = $langkah->sampai; // Tanggal sampai pada langkah L0
@@ -640,7 +652,9 @@ class AbsenController extends Controller
             echo "Data tema_leader tidak ditemukan.";
         }
 
-        $langkah = Langkah::where('name', 'L8')->first(); // Mengambil langkah dengan nama L2
+
+        $activePeriodeId = Periode::where('status', 1)->value('id');        
+        $langkah = Langkah::where('name', 'L8')->where('periode_id', $activePeriodeId)->first(); // Mengambil langkah dengan nama L2
 
         $today = Carbon::now()->toDateString(); // Tanggal hari ini
         $endDate = $langkah->sampai; // Tanggal sampai pada langkah L0
@@ -721,6 +735,8 @@ class AbsenController extends Controller
             echo "Data tema_leader tidak ditemukan.";
         }
 
+
+        $activePeriodeId = Periode::where('status', 1)->value('id');        
         $langkah = Langkah::where('name', 'L9')->first(); // Mengambil langkah dengan nama L2
 
         $today = Carbon::now()->toDateString(); // Tanggal hari ini

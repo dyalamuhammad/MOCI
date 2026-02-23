@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('iterasi_cbi_7', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('circle_id')->nullable();
+            $table->unsignedBigInteger('notulen_id')->nullable();            
+            $table->string('story_before');
+            $table->string('story_after');
+            $table->string('foto_sketsa');
+            $table->string('foto_3d');
+            $table->string('foto');
+            $table->timestamps();
+
+            $table->foreign('circle_id')->references('id')->on('circles')->onDelete('cascade');
+            $table->foreign('notulen_id')->references('id')->on('notulen_cbi_7')->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('iterasi_cbi_7');
+    }
+};

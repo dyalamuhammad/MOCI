@@ -258,7 +258,7 @@
                             </div>
                             <div class="col-12 border-1 border-primary">
                                 <label for="nama">Upload File NQI Jika Ada</label>
-                                <input type="file" class="form-control" name="file">
+                                <input type="file" class="form-control" name="file" accept=".pdf">
                             </div>
 
 

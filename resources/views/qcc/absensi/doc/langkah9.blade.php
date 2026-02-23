@@ -111,6 +111,20 @@
         // Panggil fungsi untuk memindahkan elemen jika diperlukan saat halaman dimuat
         window.onload = moveToNextPageIfNeeded;
     </script>
+    {{-- download file nqi --}}
+    <script>
+        function downloadNqi() {
+            var path = '{{ $fileNqi }}'; // Ambil nama file dari variabel
+            var fileName = 'qcc_nqi_' + '{{ $circleName }}'; // Ambil nama file dari variabel
+            var filePath = '/' + path; // Tentukan path file
+
+            // Membuat link untuk download
+            var link = document.createElement('a');
+            link.href = filePath;
+            link.download = fileName;
+            link.click(); // Trigger download
+        }
+    </script>
 @endsection
 @section('content')
     <div class="pcoded-main-container">
@@ -214,7 +228,7 @@
                                 readonly>
                         </div>
                         <div class="mb-3">
-                            <label for="nama">Donwload File NQI</label>
+                            <label for="nama">File NQI</label>
                             <button onclick="downloadNqi()" class="btn btn-outline-primary d-block">Download File
                                 NQI</button>
                         </div>

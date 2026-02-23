@@ -135,7 +135,7 @@
                                             <td>cbi</td>
                                             <td>
                                                 @php
-                                                    $cbiCircle = \App\Models\Circle::where(
+                                                    $cbiCircle = \App\Models\CircleDt::where(
                                                         'id',
                                                         $item->circle_id,
                                                     )->first();
@@ -264,7 +264,7 @@
                                     @endforeach
                                     @foreach ($dt as $item)
                                         @php
-                                            $dtCircle = \App\Models\Circle::where('id', $item->circle_id)->first();
+                                            $dtCircle = \App\Models\CircleDt::where('id', $item->circle_id)->first();
                                             $dtOrg = \App\Models\Org::where('npk', $dtCircle->npk_leader)->first();
 
                                             $frmNpk = $dtOrg

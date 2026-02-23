@@ -114,9 +114,18 @@
         // Panggil event 'input' untuk memastikan tinggi textarea sesuai dengan isi teks awal
         textarea.dispatchEvent(new Event('input'));
     </script>
+    {{-- download file nqi --}}
     <script>
-        function openPDF(pdfUrl) {
-            window.open(pdfUrl, '_blank');
+        function downloadNqi() {
+            var path = '{{ $fileNqi }}'; // Ambil nama file dari variabel
+            var fileName = 'cbi_nqi_' + '{{ $circleName }}'; // Ambil nama file dari variabel
+            var filePath = '/' + path; // Tentukan path file
+
+            // Membuat link untuk download
+            var link = document.createElement('a');
+            link.href = filePath;
+            link.download = fileName;
+            link.click(); // Trigger download
         }
     </script>
 @endsection
@@ -233,7 +242,7 @@
                         </div>
                         <div class="mb-2">
                             <label for="">File NQI</label>
-                            <button class="btn btn-primary d-block" onclick="openPDF('{{ asset($fileNqi) }}')">Lihat
+                            <button class="btn btn-primary d-block" onclick="downloadNqi()">Download
                                 File</button>
                         </div>
                         @if ($comment)

@@ -100,16 +100,7 @@
                             <div class="d-flex justify-content-between mb-3">
                                 <div class="d-flex justify-content-center gap-1 p-0 col-12">
 
-                                    <form action="{{ route('control-leader') }}" method="GET" class="col-4"
-                                        id="search-form">
-                                        <div class="input-group">
-                                            <input type="text" name="search" class="form-control"
-                                                placeholder="Cari Nama Circle atau NPK" value="{{ $search }}">
-                                            <input type="hidden" id="filter-input" name="filter"
-                                                value="{{ request()->query('filter', '') }}">
-                                            <button type="submit" class="btn btn-primary">Cari</button>
-                                        </div>
-                                    </form>
+
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -214,8 +205,7 @@
                                                 {{ $item->leader }}</td>
                                             <td>
                                                 <button class="btn btn-green btn-edit-dt" data-bs-toggle="modal"
-                                                    data-bs-target="#editModalDt"
-                                                    data-circle-dt-name="{{ $item->name }}"
+                                                    data-bs-target="#editModalDt" data-circle-dt-name="{{ $item->name }}"
                                                     data-npk-leader-dt-old="{{ $item->npk_leader }}"
                                                     data-circle-dt-id="{{ $item->id }}">
                                                     Ubah
