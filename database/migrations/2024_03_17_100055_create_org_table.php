@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('org', function (Blueprint $table) {
+            $table->id();
             $table->text('npk');
             $table->text('grp');
             $table->text('sect');

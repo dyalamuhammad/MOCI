@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'npk'        => '2001',
-                'name'       => 'Division Head',
+                'name'       => 'Dummy Division Head',
                 'jabatan'    => 'DH',
                 'shift'      => 'Non-Shift',
                 'status'     => 'Active',
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'npk'        => '3001',
-                'name'       => 'Supervisor',
+                'name'       => 'Dummy Supervisor',
                 'jabatan'    => 'SPV',
                 'shift'      => 'Non-Shift',
                 'status'     => 'Active',
@@ -64,7 +64,27 @@ class UserSeeder extends Seeder
             ],
             [
                 'npk'        => '6001',
-                'name'       => 'Dummy Team Member',
+                'name'       => 'Dummy Team Member 1',
+                'jabatan'    => 'TM',
+                'shift'      => 'Non-Shift',
+                'status'     => 'Active',
+                'password'   => Hash::make('password'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'npk'        => '6002',
+                'name'       => 'Dummy Team Member 2',
+                'jabatan'    => 'TM',
+                'shift'      => 'Non-Shift',
+                'status'     => 'Active',
+                'password'   => Hash::make('password'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'npk'        => '6003',
+                'name'       => 'Dummy Team Member 3',
                 'jabatan'    => 'TM',
                 'shift'      => 'Non-Shift',
                 'status'     => 'Active',
@@ -87,6 +107,18 @@ class UserSeeder extends Seeder
                 ]
             );
         }
+        DB::table('org')->updateOrInsert( // Kondisi pengecekan (Unique Key)
+                    ['npk' => '5001'], // Kondisi pengecekan (Unique Key)
+                [
+                    'npk'       => '5001',
+                    'grp'    => 'grp-001',
+                    'sect'      => 'sect-001',
+                    'dept'     =>'dept-001',
+                    'division'   => 'div-001',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]
+            );
 
     }
 }

@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('groupfrm', function (Blueprint $table) {
+            $table->id();
             $table->text('id_group');
             $table->text('nama_group');
             $table->text('npk_cord');

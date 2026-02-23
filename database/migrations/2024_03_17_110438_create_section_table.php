@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('section', function (Blueprint $table) {
+            $table->id();
             $table->text('id_section');
             $table->text('section');
             $table->text('npk_cord');
