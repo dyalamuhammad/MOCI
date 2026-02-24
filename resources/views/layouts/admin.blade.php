@@ -138,13 +138,13 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link " href="{{ route('adminHome') }}">
+                <a class="nav-link {{ Request::routeIs('adminHome') ? 'active' : 'collapsed' }}" href="{{ route('adminHome') }}">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="{{ route('adminSlides') }}">
+                <a class="nav-link {{ Request::routeIs('adminSlides') ? 'active' : 'collapsed' }}" href="{{ route('adminSlides') }}">
                     <i class="bi bi-chevron-double-right"></i>
                     <span>Slides</span>
                 </a>
