@@ -168,7 +168,7 @@
             let timeoutId = null; // Untuk menyimpan ID timeout
 
             function startFaceScan() {
-                videoElement.src = "http://127.0.0.1:5000/video_feed"; // Mulai streaming video
+                videoElement.src = "http://127.0.0.1:5001/video_feed"; // Mulai streaming video
                 faceScanModal.show(); // Tampilkan modal
                 intervalId = setInterval(checkFaceStatus, 3000); // Cek status wajah setiap 2 detik
 
@@ -192,7 +192,7 @@
 
             function checkFaceStatus() {
                 console.log("📢 Memanggil /face_status..."); // Debug log di browser
-                fetch('http://127.0.0.1:5000/face_status')
+                fetch('http://127.0.0.1:5001/face_status')
                     .then(response => {
                         console.log("📢 Received response:", response);
                         return response.text(); // Ambil response dalam bentuk teks dulu

@@ -24,7 +24,7 @@ class FaceRecognitionController extends Controller
 
         // Kirim permintaan ke API Flask
         $client = new Client();
-        $url = 'http://127.0.0.1:5000/recognize';
+        $url = 'http://127.0.0.1:5001/recognize';
 
         try {
             $response = $client->request('POST', $url, [

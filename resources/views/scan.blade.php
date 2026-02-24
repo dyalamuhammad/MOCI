@@ -29,13 +29,13 @@
 
         // Fungsi untuk memulai streaming kamera
         startScanFaceBtn.addEventListener('click', () => {
-            video.src = 'http://127.0.0.1:5000/video_feed'; // Ganti dengan URL Flask API untuk streaming kamera
+            video.src = 'http://127.0.0.1:5001/video_feed'; // Ganti dengan URL Flask API untuk streaming kamera
             video.style.display = 'block';
         });
 
         // Fungsi untuk memeriksa status pengenalan wajah
         function checkFaceStatus() {
-            fetch('http://127.0.0.1:5000/face_status') // Ganti dengan URL Flask API untuk status wajah
+            fetch('http://127.0.0.1:5001/face_status') // Ganti dengan URL Flask API untuk status wajah
                 .then(response => response.json())
                 .then(data => {
                     if (data.redirect) {

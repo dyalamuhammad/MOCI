@@ -64,7 +64,7 @@
                 confirmButtonText: 'Ya, hapus!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`http://127.0.0.1:5000/delete_face/${npk}`, {
+                    fetch(`http://127.0.0.1:5001/delete_face/${npk}`, {
                             method: "DELETE"
                         })
                         .then(response => response.json())
@@ -180,7 +180,7 @@
                         <input type="hidden" name="name" value="{{ $user->name }}">
                         @if (!empty($faces))
                             <!-- Gambar preview akan muncul di sini -->
-                            <img id="facePreview" src="http://localhost:5000/{{ $faces ?? '' }}" alt="Preview wajah"
+                            <img id="facePreview" src="http://localhost:5001/{{ $faces ?? '' }}" alt="Preview wajah"
                                 style="max-height: 350px; max-width: 100%; display: block; margin-bottom: 10px;">
                         @endif
                         @if ($faces)

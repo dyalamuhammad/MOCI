@@ -352,7 +352,7 @@ class AppController extends Controller
                 $file = $request->file('faces');
                 $client = new \GuzzleHttp\Client();
                 try {
-                    $response = $client->post('http://localhost:5000/add_face', [
+                    $response = $client->post('http://localhost:5001/add_face', [
                         'multipart' => [
                             [
                                 'name'     => 'image',
